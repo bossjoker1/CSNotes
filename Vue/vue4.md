@@ -143,3 +143,73 @@
 
 ## Vue动画效果
 
+自定义动画帧：
+
+```js
+@keyframes anim {
+        from{
+            transform: translateX(-100%);
+        }
+        to{
+            transform: translateX(0);
+        }
+    }
+
+// 使用
+// eg:
+.v-leave-active{
+        animation: anim 1s reverse;
+ }
+
+```
+
+将需要用到动画的DOM元素通过`transaction`标签包裹：
+
+```css
+<!-- appear表示一加载就显示进场动画，name取名 -->
+<transition name = 'xxx' appear>
+<h1 v-show="isShow">你好啊</h1>
+</transition>
+```
+
+使用:
+
+```js
+.v-enter-active{
+    animation: anim 1s;
+}
+
+.v-leave-active{
+    animation: anim 1s reverse;
+}
+```
+
+如果取名了，则需要将v修改为对应名xxx。
+
+完整方法：
+
+```js
+/* 进入的起点、离开的终点 */
+.hello-enter,.hello-leave-to{
+    transform: translateX(-100%);
+                          }
+.hello-enter-active,.hello-leave-active{
+    transition: 0.5s linear;
+}
+/* 进入的终点、离开的起点 */
+.hello-enter-to,.hello-leave{
+    transform: translateX(0);
+}
+```
+
+如果需要多个元素进行过渡动画，需要`transaction-group`包裹，并且每个DOM元素需要指定唯一的key值
+
+```css
+<transition-group name="hello" appear>
+<h1 v-show="!isShow" key="1">你好啊！</h1>
+<h1 v-show="isShow" key="2">尚硅谷！</h1>
+</transition-group>
+```
+
+:exclamation: 可以借用封装好的`css`样式。
+
